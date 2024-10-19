@@ -17,4 +17,4 @@ RUN source venv/bin/activate
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 COPY . .
-CMD python3 app/__main__.py
+CMD python3 app/main.py
