@@ -16,7 +16,7 @@ class Db:
     host: str
 
     def __post_init__(self):
-        self.url = f'postgresql+asyncpg://{self.user}:{self.password}@{self.host}/{self.name}'
+        self.url = f'postgresql+psycopg2://{self.user}:{self.password}@{self.host}:{self.port}/{self.name}'
 
 @dataclass
 class Config:

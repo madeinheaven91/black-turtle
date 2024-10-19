@@ -1,5 +1,5 @@
-from lexicon import LEXICON
+from .lexicon import LEXICON
 
 __all__ = [
-    'LEXICON',
+    'LEXICON'
 ]
