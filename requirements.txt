@@ -1,0 +1,8 @@
+aiogram
+requests
+python-dotenv
+environs
+psycopg2-binary
+sqlalchemy
+alembic
+redis
