@@ -1,3 +1,6 @@
-from .lesson import Lesson
+from .models import Lesson, StudyEntityType
 
-__all__ = ["Lesson"]
+__all__ = [
+    "Lesson",
+    "StudyEntityType",
+]

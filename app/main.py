@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from datetime import date, timedelta
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
@@ -11,18 +12,29 @@ from middlewares.outer import LoggingMiddleware, TokenizerMiddleware
 from sqlalchemy import text
 from utils import main_logger
 
+from models import StudyEntityType
+from api import *
 
 async def main():
     conf = load_config()
-    print(r"""
+    print(
+        r"""
  ____  _     ____  ____  _  __   _____  _     ____  _____  _     _____
 /  _ \/ \   /  _ \/   _\/ |/ /  /__ __\/ \ /\/  __\/__ __\/ \   /  __/
 | | //| |   | / \||  /  |   /     / \  | | |||  \/|  / \  | |   |  \  
 | |_\\| |_/\| |-|||  \_ |   \     | |  | \_/||    /  | |  | |_/\|  /_ 
 \____/\____/\_/ \|\____/\_|\_\    \_/  \____/\_/\_\  \_/  \____/\____\
-    """)
+    """
+    )
+
     main_logger.critical(f"LOG LEVEL: {conf.app.log_level}")
 
+    d = date.today() - timedelta(days=1)
+    data = req_week(StudyEntityType.GROUP, 2, d)
+    lessons = lessons_for_today(data, d - timedelta(5))
+    print(lessons)
+    lessons = dictionary_to_lessons(lessons)
+    print(lessons)
     # Bot and dispatcher initialization
     bot = Bot(token=conf.bot.token, default=DefaultBotProperties(parse_mode="HTML"))
     dp = Dispatcher()
@@ -44,3 +56,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+

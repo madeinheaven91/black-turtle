@@ -2,14 +2,7 @@ from typing import List
 from aiogram import F, Router
 from aiogram.filters import Command, CommandStart
 from aiogram.types import CallbackQuery, Message
-# from app.filters.filters import IsDelBookmarkCallbackData, IsDigitCallbackData
-# from app.keyboards.bookmarks_kb import (create_bookmarks_keyboard,
-                                    # create_edit_keyboard)
-# from app.keyboards.pagination_kb import create_pagination_keyboard
 from lexicon import LEXICON
-# from app.services.file_handling import book
-
-# from app.database import Database
 
 router = Router()
 
@@ -19,6 +12,10 @@ async def handle_start(msg: Message):
 
 @router.message(F.text.lower().startswith('пары'))
 async def handle_lessons(msg: Message, tokens: List[str]):
+    # process_tokens()
+    # request from api
+    # transform request to message
+    # send message
     result = "not implemented yet"
     await msg.answer(result)
 
