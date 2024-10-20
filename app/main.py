@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
@@ -8,36 +9,37 @@ from database.tables import Base
 from handlers import user_handlers
 from middlewares.outer import LoggingMiddleware, TokenizerMiddleware
 from sqlalchemy import text
-from utils.logger import logger
+from utils import main_logger
 
 
 async def main():
-    # Выводим в консоль информацию о начале запуска бота
-    logger.info("Starting bot")
-
-    # with engine.connect() as conn:
-    #     result = conn.execute(text("SELECT * from chats;"))
-    #     print(result)
-
-    # Config and stuff
-    config: Config = load_config()
+    conf = load_config()
+    print(r"""
+ ____  _     ____  ____  _  __   _____  _     ____  _____  _     _____
+/  _ \/ \   /  _ \/   _\/ |/ /  /__ __\/ \ /\/  __\/__ __\/ \   /  __/
+| | //| |   | / \||  /  |   /     / \  | | |||  \/|  / \  | |   |  \  
+| |_\\| |_/\| |-|||  \_ |   \     | |  | \_/||    /  | |  | |_/\|  /_ 
+\____/\____/\_/ \|\____/\_|\_\    \_/  \____/\_/\_\  \_/  \____/\____\
+    """)
+    main_logger.critical(f"LOG LEVEL: {conf.app.log_level}")
 
     # Bot and dispatcher initialization
-    bot = Bot(token=config.bot.token, default=DefaultBotProperties(parse_mode="HTML"))
+    bot = Bot(token=conf.bot.token, default=DefaultBotProperties(parse_mode="HTML"))
     dp = Dispatcher()
 
     # Router registration
-    logger.info("Registering routers")
+    main_logger.critical("Registering routers")
     dp.include_router(user_handlers.router)
 
     # Middleware registration
-    logger.info("Registering middleware")
-    dp.update.middleware(LoggingMiddleware())
+    main_logger.critical("Registering middlewares")
     dp.update.middleware(TokenizerMiddleware())
+    dp.update.middleware(LoggingMiddleware())
 
     # Polling
     # await bot.delete_webhook(drop_pending_updates=True) # This skips all updates that were made when the bot was sleeping
     await dp.start_polling(bot)
+    logging.shutdown()
 
 
 if __name__ == "__main__":

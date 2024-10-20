@@ -1,6 +1,6 @@
-from environs import Env
-
 from dataclasses import dataclass
+
+from environs import Env
 
 
 @dataclass
@@ -19,9 +19,14 @@ class Db:
         self.url = f'postgresql+psycopg2://{self.user}:{self.password}@{self.host}:{self.port}/{self.name}'
 
 @dataclass
+class App:
+    log_level: str
+
+@dataclass
 class Config:
     bot: TgBot
     db: Db
+    app: App
 
 def load_config(path: str | None = None) -> Config:
     env = Env()
@@ -36,5 +41,8 @@ def load_config(path: str | None = None) -> Config:
             user=env('POSTGRES_USER'),
             password=env('POSTGRES_PASSWORD'),
             port=env('POSTGRES_PORT')
-        )
+        ),
+        app=App(
+            log_level=env('LOG_LEVEL') or 'INFO',
+        ),
     )

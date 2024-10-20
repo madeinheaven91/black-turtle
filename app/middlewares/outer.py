@@ -2,8 +2,8 @@ from typing import Any, Awaitable, Callable, Dict
 
 from aiogram import BaseMiddleware
 from aiogram.types import Message
+from utils import main_logger
 
-from utils.logger import logger
 
 class LoggingMiddleware(BaseMiddleware):
     def __init__(self) -> None:
@@ -15,7 +15,12 @@ class LoggingMiddleware(BaseMiddleware):
         event: Message,
         data: Dict[str, Any]
     ) -> Any:
-        logger.info(str(event.message.text))
+        match event.message.chat.type:
+            case 'private':
+                log = f"{str(event.message.from_user.full_name)} in @{str(event.message.chat.username)} ({str(event.message.chat.id)}): {str(event.message.text)}"
+            case _:
+                log = f"{str(event.message.from_user.full_name)} in {str(event.message.chat.title)} ({str(event.message.chat.id)}): {str(event.message.text)}"
+        main_logger.telegram(log)
         result = await handler(event, data)
         return result
 
