@@ -15,12 +15,14 @@ class LoggingMiddleware(BaseMiddleware):
         event: Message,
         data: Dict[str, Any]
     ) -> Any:
-        match event.message.chat.type:
-            case 'private':
-                log = f"{str(event.message.from_user.full_name)} in @{str(event.message.chat.username)} ({str(event.message.chat.id)}): {str(event.message.text)}"
-            case _:
-                log = f"{str(event.message.from_user.full_name)} in {str(event.message.chat.title)} ({str(event.message.chat.id)}): {str(event.message.text)}"
-        main_logger.telegram(log)
+        if event.message:
+            if event.message.text:
+                match event.message.chat.type:
+                    case 'private':
+                        log = f"{str(event.message.from_user.full_name)} in @{str(event.message.chat.username)} ({str(event.message.chat.id)}): {str(event.message.text)}"
+                    case _:
+                        log = f"{str(event.message.from_user.full_name)} in {str(event.message.chat.title)} ({str(event.message.chat.id)}): {str(event.message.text)}"
+            main_logger.telegram(log)
         result = await handler(event, data)
         return result
 
@@ -34,10 +36,11 @@ class TokenizerMiddleware(BaseMiddleware):
         event: Message,
         data: Dict[str, Any]
     ) -> Any:
-        tokens = str.lower(event.message.text.strip()).split(' ')
-        while(len(tokens)) < 10:
-            tokens.append('')
-
-        data['tokens'] = tokens
+        if event.message:
+            if event.message.text:
+                tokens = str.lower(event.message.text.strip()).split(' ')
+                while(len(tokens)) < 10:
+                    tokens.append('')
+                data['tokens'] = tokens
         result = await handler(event, data)
         return result

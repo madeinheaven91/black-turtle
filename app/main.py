@@ -29,12 +29,6 @@ async def main():
 
     main_logger.critical(f"LOG LEVEL: {conf.app.log_level}")
 
-    d = date.today() - timedelta(days=1)
-    data = req_week(StudyEntityType.GROUP, 2, d)
-    lessons = lessons_for_today(data, d - timedelta(5))
-    print(lessons)
-    lessons = dictionary_to_lessons(lessons)
-    print(lessons)
     # Bot and dispatcher initialization
     bot = Bot(token=conf.bot.token, default=DefaultBotProperties(parse_mode="HTML"))
     dp = Dispatcher()

@@ -6,5 +6,5 @@ __all__ = [
     'engine',
     'Base',
     'StudyEntity',
-    'Chats',
+    'Chat',
 ]
