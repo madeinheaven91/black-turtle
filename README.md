@@ -1,15 +1,16 @@
 # ЧОРНА ЧЕРЕПАХА
 
-чтобы смотреть расписание прямо в телеграме
+Чтобы смотреть расписание пар прямо в телеграме!
 
 ### Установка
 
 заполнить .env файл по примеру .env.example
 
-python -m venv venv
+```bash
+docker compose up --build --attach bot
+```
 
-source venv/bin/activate
-
-pip install -r requirements.txt
-
-python3 main.py
+Посмотреть файл с логами:
+```bash
+docker execute -it bt-bot cat logs/2024-10-20.log
+```
