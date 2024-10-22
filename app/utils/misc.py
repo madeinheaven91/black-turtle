@@ -5,3 +5,4 @@ def lessons_declension(count: int) -> str:
         return "урока"
     else:
         return "уроков"
+

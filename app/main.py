@@ -1,21 +1,19 @@
 import asyncio
+import locale
 import logging
-from datetime import date, timedelta
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
-from config import Config, load_config
-from database.connect import engine
-from database.tables import Base
-from handlers import user_handlers
+from config import load_config
 from middlewares.outer import LoggingMiddleware, TokenizerMiddleware
-from sqlalchemy import text
 from utils import main_logger
 
 from models import StudyEntityType
 from api import *
+from handlers import user_router, start_router
 
 async def main():
+    locale.setlocale(locale.LC_TIME, "ru_RU.UTF-8")
     conf = load_config()
     print(
         r"""
@@ -35,7 +33,8 @@ async def main():
 
     # Router registration
     main_logger.critical("Registering routers")
-    dp.include_router(user_handlers.router)
+    dp.include_router(user_router)
+    dp.include_router(start_router)
 
     # Middleware registration
     main_logger.critical("Registering middlewares")

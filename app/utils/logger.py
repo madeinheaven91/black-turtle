@@ -30,7 +30,7 @@ def init_logger(level: int | str, formatter: Formatter) -> Logger:
             log_level = logging.INFO
 
     filename = f'./logs/{datetime.now().strftime("%Y-%m-%d")}.log'
-    file = open(filename, 'x')
+    file = open(filename, 'a')
     file.close()
     fh = logging.FileHandler(filename)
     fh.setFormatter(formatter)

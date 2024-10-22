@@ -1,3 +1,3 @@
-from .request import *
+from .request import req_week, res_to_day, combine_simul, day_to_msg
 
-__all__ = ["req_week", "lessons_for_today", "dictionary_to_lessons"]
+__all__ = ["req_week", "res_to_day", "combine_simul", "day_to_msg"]

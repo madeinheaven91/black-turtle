@@ -1,6 +1,10 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, date
 from enum import Enum
+
+class StudyEntityType(Enum):
+    GROUP = "group"
+    TEACHER = "teacher"
 
 @dataclass
 class Lesson:
@@ -8,18 +12,14 @@ class Lesson:
     start_time: datetime
     end_time: datetime
     subjects: list[str]
-    teachers: list[str]
+    cor_entities: list[str]
+    # cor_entities meaning corresponding entities
+    # if a lesson is provided for a group, a cor entity is a teacher (and vice versa)
     cabinets: list[str]
 
-test_lesson = Lesson(
-    index=1,
-    start_time=datetime(2022, 1, 1, 9, 0),
-    end_time=datetime(2022, 1, 1, 10, 0),
-    subjects=["name1", "name2"],
-    teachers=["teacher1", "teacher2"],
-    cabinets=["cabinet1", "cabinet2"],
-)
-
-class StudyEntityType(Enum):
-    GROUP = "group"
-    TEACHER = "teacher"
+@dataclass
+class Day:
+    study_entity_kind: StudyEntityType
+    study_entity_name: str
+    date: date
+    lessons: list[Lesson]
