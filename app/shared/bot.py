@@ -1,7 +1,7 @@
 from aiogram import Dispatcher, Bot
 from aiogram.client.default import DefaultBotProperties
-from config import load_config
-from shared import main_logger
+from app.config import load_config
+from app.shared import main_logger
 
 conf = load_config()
 

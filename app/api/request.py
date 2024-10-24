@@ -1,8 +1,8 @@
 from datetime import date, timedelta
 import json
 import requests
-from models import StudyEntityType
-from shared import api_url, req_headers, main_logger
+from app.models import StudyEntityType
+from app.shared import api_url, req_headers, main_logger
 
 ## Returns a dictionary that api sends back
 def req_week(type: StudyEntityType, id: int, query_date: date):

@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from datetime import date
 
 from .models import Lesson, StudyEntityType
-from shared import lessons_declension
-from lexicon import LEXICON
+from app.shared import lessons_declension
+from app.lexicon import LEXICON
 
 @dataclass
 class Day:

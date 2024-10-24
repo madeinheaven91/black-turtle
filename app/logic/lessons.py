@@ -1,7 +1,7 @@
 from datetime import date
-from lexicon import LEXICON
-from models import StudyEntityType, Day, Lesson
-from shared import main_logger
+from app.lexicon import LEXICON
+from app.models import StudyEntityType, Day, Lesson
+from app.shared import main_logger
 
 # Converts a dictionary to a Day obj
 def res_to_day(dic, query_date: date):

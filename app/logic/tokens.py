@@ -1,9 +1,9 @@
 from datetime import datetime, date, timedelta
 from typing import Any
-from models import StudyEntityType
-from shared import relative_day_tokens, absolute_day_tokens, day_tokens, week_tokens, main_logger
+from app.models import StudyEntityType
+from app.shared import relative_day_tokens, absolute_day_tokens, day_tokens, week_tokens, main_logger
 import re
-from database import engine, StudyEntity, Chat
+from app.database import engine, StudyEntity, Chat
 from sqlalchemy.orm import Session
 
 # FIXME: нормально написать весь этот бред

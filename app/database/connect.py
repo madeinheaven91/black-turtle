@@ -1,4 +1,4 @@
-from config import config
+from app.config import config
 from sqlalchemy import create_engine
 
 conf = config.load_config()

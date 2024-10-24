@@ -3,9 +3,9 @@ import re
 
 from aiogram import BaseMiddleware
 from aiogram.types import Message
-from logic import extract_lessons_tokens
-from shared import main_logger, command_tokens
-from database import engine, Chat
+from app.logic import extract_lessons_tokens
+from app.shared import main_logger, command_tokens
+from app.database import engine, Chat
 from sqlalchemy.orm import Session
 
 # Checks if a chat is banned. If it is, breaks the middleware chain 

@@ -1,24 +1,20 @@
 import asyncio
 import locale
 import logging
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from config import load_config
 from middlewares.outer import LoggingMiddleware, TokenizerMiddleware, ValidateMiddleware
 from shared import main_logger, bot, dp
+from lexicon import LEXICON
 from handlers import user_router, start_router, admin_router
 
 async def main():
     locale.setlocale(locale.LC_TIME, "ru_RU.UTF-8")
     conf = load_config()
-    print(
-        r"""
- ____  _     ____  ____  _  __   _____  _     ____  _____  _     _____
-/  _ \/ \   /  _ \/   _\/ |/ /  /__ __\/ \ /\/  __\/__ __\/ \   /  __/
-| | //| |   | / \||  /  |   /     / \  | | |||  \/|  / \  | |   |  \  
-| |_\\| |_/\| |-|||  \_ |   \     | |  | \_/||    /  | |  | |_/\|  /_ 
-\____/\____/\_/ \|\____/\_|\_\    \_/  \____/\_/\_\  \_/  \____/\____\
-    """
-    )
+    print(LEXICON["ascii_art"])
 
     main_logger.critical(f"LOG LEVEL: {conf.app.log_level}")
 
@@ -43,5 +39,6 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 

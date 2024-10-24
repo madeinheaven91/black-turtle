@@ -2,11 +2,10 @@ from aiogram.types import Message
 from aiogram import Router
 from aiogram.filters import Command
 from typing import List
-from shared import admin_ids
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert
-from shared import dp, bot, main_logger
-from database import Chat, engine
+from app.shared import dp, bot, main_logger, admin_ids
+from app.database import Chat, engine
 
 admin_router = Router()
 

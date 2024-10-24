@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 from logging import Formatter, Logger
-from config import load_config
+from app.config import load_config
 
 conf = load_config()
 

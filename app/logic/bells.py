@@ -1,5 +1,5 @@
 from datetime import date
-from lexicon import LEXICON
+from app.lexicon import LEXICON
 
 def bells_logic(specifier: str):
     match specifier:
