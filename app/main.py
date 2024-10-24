@@ -6,10 +6,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from config import load_config
 from middlewares.outer import LoggingMiddleware, TokenizerMiddleware
-from utils import main_logger
-
-from models import StudyEntityType
-from api import *
+from shared import main_logger
 from handlers import user_router, start_router
 
 async def main():

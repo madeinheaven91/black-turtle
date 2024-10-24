@@ -4,11 +4,12 @@ from aiogram.types import CallbackQuery, Message
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert
 
-from utils import main_logger
+from shared import main_logger
 from lexicon import LEXICON
 from keyboards import help_kb
 from logic import process_lessons_tokens
-from api import req_week, res_to_day, combine_simul, day_to_msg
+from api import req_week
+from logic import res_to_day
 
 user_router = Router()
 
@@ -22,9 +23,8 @@ async def handle_lessons(msg: Message, tokens: List[str]):
     id = processed[2]
     query_date = processed[3]
     res = req_week(kind, id, query_date)
-    lessons = res_to_day(res, query_date)
-    lessons = combine_simul(lessons)
-    result = day_to_msg(lessons)
+    day = res_to_day(res, query_date)
+    result = day.to_msg()
     await msg.answer(result)
 
 @user_router.message(F.text.lower().startswith('помощь'))

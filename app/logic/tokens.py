@@ -1,7 +1,7 @@
 from datetime import datetime, date, timedelta
 from typing import Any
 from models import StudyEntityType
-from utils import relative_day_tokens, absolute_day_tokens, day_tokens, week_tokens, main_logger
+from shared import relative_day_tokens, absolute_day_tokens, day_tokens, week_tokens, main_logger
 import re
 from database import engine, StudyEntity, Chat
 from sqlalchemy.orm import Session
@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 # FIXME: нормально написать весь этот бред
 def is_date(string):
     try:
-        d = datetime.strptime(string, '%d.%m.%Y').date()
+        datetime.strptime(string, '%d.%m.%Y')
         return True
     except:
         return False

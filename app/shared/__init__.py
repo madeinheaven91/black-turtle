@@ -1,5 +1,6 @@
 from .data import *
 from .logger import main_logger
+from .utils import lessons_declension
 
 __all__ = [
     "main_logger",
@@ -9,5 +10,6 @@ __all__ = [
     "relative_day_tokens",
     "absolute_day_tokens",
     "day_tokens",
-    "week_tokens"
+    "week_tokens",
+    "lessons_declension",
 ]

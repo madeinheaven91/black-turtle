@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime, date
+from datetime import datetime
 from enum import Enum
 
 class StudyEntityType(Enum):
@@ -17,9 +17,3 @@ class Lesson:
     # if a lesson is provided for a group, a cor entity is a teacher (and vice versa)
     cabinets: list[str]
 
-@dataclass
-class Day:
-    study_entity_kind: StudyEntityType
-    study_entity_name: str
-    date: date
-    lessons: list[Lesson]
