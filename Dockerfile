@@ -17,4 +17,5 @@ RUN source venv/bin/activate
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 COPY . .
+# CMD python3 tests/tokens.py
 CMD python3 app/main.py

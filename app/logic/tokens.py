@@ -16,7 +16,8 @@ def is_date(string):
 
 
 def extract_lessons_tokens(tokens: list[str]):
-    tokens.remove("пары")
+    print(tokens)
+    tokens = tokens[1:]
     date_found = False;
     for i, token in enumerate(tokens):
         if token in day_tokens or is_date(token):
