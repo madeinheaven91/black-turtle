@@ -2,12 +2,10 @@ import asyncio
 import locale
 import logging
 
-from aiogram import Bot, Dispatcher
-from aiogram.client.default import DefaultBotProperties
 from config import load_config
 from middlewares.outer import LoggingMiddleware, TokenizerMiddleware
-from shared import main_logger
-from handlers import user_router, start_router
+from shared import main_logger, bot, dp
+from handlers import user_router, start_router, admin_router
 
 async def main():
     locale.setlocale(locale.LC_TIME, "ru_RU.UTF-8")
@@ -24,14 +22,12 @@ async def main():
 
     main_logger.critical(f"LOG LEVEL: {conf.app.log_level}")
 
-    # Bot and dispatcher initialization
-    bot = Bot(token=conf.bot.token, default=DefaultBotProperties(parse_mode="HTML"))
-    dp = Dispatcher()
 
     # Router registration
     main_logger.critical("Registering routers")
     dp.include_router(user_router)
     dp.include_router(start_router)
+    dp.include_router(admin_router)
 
     # Middleware registration
     main_logger.critical("Registering middlewares")

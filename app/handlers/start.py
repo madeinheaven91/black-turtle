@@ -15,7 +15,7 @@ from shared import main_logger
 from database import Chat
 from lexicon import LEXICON
 from keyboards import greeting_kb, reg_group_or_teacher_kb, reg_cancel_kb, default_kb
-from database import engine, StudyEntity, Chat
+from database import engine, StudyEntity, Chat, find_teachers
 
 start_router = Router()
 
@@ -98,7 +98,7 @@ async def select_group(message: Message, state: FSMContext) -> None:
 @start_router.message(Registration.select_teacher)
 async def select_teacher(message: Message, state: FSMContext) -> None:
     with Session(engine) as session:
-        teachers = session.query(StudyEntity).filter(StudyEntity.name.ilike(f"%{message.text}%"), StudyEntity.kind == "teacher").all()
+        teachers = find_teachers(message.text)
         if not teachers:
             await state.set_state(Registration.select_teacher)
             await message.answer(LEXICON["reg_teacher_not_found"], reply_markup=reg_cancel_kb,)

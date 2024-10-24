@@ -1,6 +1,7 @@
 from .data import *
 from .logger import main_logger
 from .utils import lessons_declension
+from .bot import bot, dp
 
 __all__ = [
     "main_logger",
@@ -12,4 +13,6 @@ __all__ = [
     "day_tokens",
     "week_tokens",
     "lessons_declension",
+    "bot",
+    "dp",
 ]
