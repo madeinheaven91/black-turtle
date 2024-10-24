@@ -7,6 +7,8 @@ req_headers = {
     "Accept": "*/*",
 }
 
+
+
 relative_day_tokens: set[str] = {
     "позавчера",
     "вчера",
@@ -43,4 +45,17 @@ week_tokens: set[str] = {
     "пред",
     "предыдущий",
     "предыдущая",
+}
+
+command_tokens: set[str] = {
+    "пары",
+    "помощь",
+    "/start",
+    "звонки",
+    "фио",
+    "регистрация",
+    "клавиатура",
+    "/kill",
+    "/send",
+    "/send_all"
 }

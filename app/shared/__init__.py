@@ -12,6 +12,7 @@ __all__ = [
     "absolute_day_tokens",
     "day_tokens",
     "week_tokens",
+    "command_tokens",
     "lessons_declension",
     "bot",
     "dp",

@@ -3,7 +3,7 @@ import locale
 import logging
 
 from config import load_config
-from middlewares.outer import LoggingMiddleware, TokenizerMiddleware
+from middlewares.outer import LoggingMiddleware, TokenizerMiddleware, ValidateMiddleware
 from shared import main_logger, bot, dp
 from handlers import user_router, start_router, admin_router
 
@@ -31,8 +31,9 @@ async def main():
 
     # Middleware registration
     main_logger.critical("Registering middlewares")
-    dp.update.middleware(TokenizerMiddleware())
-    dp.update.middleware(LoggingMiddleware())
+    dp.update.middleware(ValidateMiddleware())
+    dp.message.middleware(TokenizerMiddleware())
+    dp.message.middleware(LoggingMiddleware())
 
     # Polling
     # await bot.delete_webhook(drop_pending_updates=True) # This skips all updates that were made when the bot was sleeping

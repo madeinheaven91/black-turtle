@@ -71,7 +71,7 @@ async def handle_fio(msg: Message, tokens: List[str]):
 
     await msg.answer(result)
 
-@user_router.message(F.text.lower().strip() == "убрать клавиатуру")
+@user_router.message(F.text.lower().strip() == "клавиатура убрать")
 async def handle_hide_kb(msg: Message):
     if msg.chat.type != "private":
         await msg.reply(LEXICON["not_available_in_groups"])
@@ -81,7 +81,7 @@ async def handle_hide_kb(msg: Message):
     kb = ReplyKeyboardRemove()
     await msg.reply(result, reply_markup=kb)
 
-@user_router.message(F.text.lower().strip() == "показать клавиатуру")
+@user_router.message(F.text.lower().strip() == "клавиатура показать")
 async def handle_show_kb(msg: Message):
     if msg.chat.type != "private":
         await msg.reply(LEXICON["not_available_in_groups"])

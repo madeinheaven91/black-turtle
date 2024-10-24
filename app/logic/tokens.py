@@ -43,7 +43,9 @@ def extract_lessons_tokens(tokens: list[str]):
 # [ 'lessons', kind, api_id, query_date ]
 def process_lessons_tokens(tokens: list[str], chat_id: int) -> list[Any]:
 
-    _, study_entity_name, day_token, week_token = extract_lessons_tokens(tokens)
+    study_entity_name = tokens[1]
+    day_token = tokens[2]
+    week_token = tokens[3]
 
     with Session(engine) as session:
         if not study_entity_name:
