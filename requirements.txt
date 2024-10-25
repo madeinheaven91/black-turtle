@@ -6,3 +6,4 @@ psycopg2-binary
 sqlalchemy
 alembic
 redis
+unittest2
