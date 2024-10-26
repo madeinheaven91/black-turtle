@@ -32,7 +32,7 @@ async def cmd_start(msg: Message) -> None:
                     session.add(Chat(id=msg.chat.id, kind="private", name=msg.from_user.full_name, username=msg.from_user.username))
                     session.commit()
                 case _:
-                    session.execute(Chat(id=msg.chat.id, kind="group", name=msg.chat.title))
+                    session.add(Chat(id=msg.chat.id, kind="group", name=msg.chat.title))
                     session.commit()
         else:
             main_logger.info(f"Chat already exists! ID: {msg.chat.id}, type: {msg.chat.type}")
@@ -91,7 +91,8 @@ async def select_group(message: Message, state: FSMContext) -> None:
             chat = session.query(Chat).filter(Chat.id == message.chat.id).first()
             chat.study_entity_id = group.id
             session.commit()
-            await message.answer(LEXICON["reg_group_selected"], reply_markup=default_kb)
+            kb = default_kb if message.chat.type == "private" else None
+            await message.answer(LEXICON["reg_group_selected"], reply_markup=kb)
             await state.clear()
 
 
@@ -110,7 +111,8 @@ async def select_teacher(message: Message, state: FSMContext) -> None:
                 chat = session.query(Chat).filter(Chat.id == message.chat.id).first()
                 chat.study_entity_id = teacher.id
                 session.commit()
-                await message.answer(LEXICON["reg_teacher_selected"], reply_markup=default_kb)
+                kb = default_kb if message.chat.type == "private" else None
+                await message.answer(LEXICON["reg_teacher_selected"], reply_markup=kb)
                 await state.clear()
             else:
                 msg = "Найдено несколько преподавателей...\n\n"
@@ -135,7 +137,8 @@ async def select_teacher_callback(callback: CallbackQuery, state: FSMContext) ->
         chat.study_entity_id = teacher.id
         session.commit()
         await callback.message.delete()
-        await callback.message.answer(LEXICON["reg_teacher_selected"], reply_markup=default_kb)
+        kb = default_kb if callback.message.chat.type == "private" else None
+        await callback.message.answer(LEXICON["reg_teacher_selected"], reply_markup=kb)
         await callback.answer()
         await state.clear()
 

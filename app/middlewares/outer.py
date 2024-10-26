@@ -21,10 +21,19 @@ class ValidateMiddleware(BaseMiddleware):
     ) -> Any:
         if event.message:
             chat = event.message.chat
+        # elif event.edited_message:
+        #     chat = event.edited_message.chat
+        elif event.callback_query:
+            chat = event.callback_query.message.chat
+        else:
+            # If the update doesn't contain a message, stop processing
+            return
 
         with Session(engine) as session:
             this_chat = session.query(Chat).filter(Chat.id == chat.id).first()
-            if this_chat.is_banned:
+            if not this_chat:
+                return await handler(event, data)
+            elif this_chat.is_banned:
                 return
 
         return await handler(event, data)
@@ -41,14 +50,13 @@ class LoggingMiddleware(BaseMiddleware):
     ) -> Any:
         if event.text:
             first_word = event.text.split(" ")[0].lower()
-            if not (first_word in command_tokens):
-                return
-            match event.chat.type:
-                case 'private':
-                    log = f"{str(event.from_user.full_name)} in @{str(event.chat.username)} ({str(event.chat.id)}): {str(event.text)}"
-                case _:
-                    log = f"{str(event.from_user.full_name)} in {str(event.chat.title)} ({str(event.chat.id)}): {str(event.text)}"
-        main_logger.telegram(log)
+            if first_word in command_tokens:
+                match event.chat.type:
+                    case 'private':
+                        log = f"{str(event.from_user.full_name)} in @{str(event.chat.username)} ({str(event.chat.id)}): {str(event.text)}"
+                    case _:
+                        log = f"{str(event.from_user.full_name)} in {str(event.chat.title)} ({str(event.chat.id)}): {str(event.text)}"
+                main_logger.telegram(log)
 
         result = await handler(event, data)
 

@@ -1,6 +1,6 @@
 from typing import Optional
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import Integer, String, ForeignKey, PrimaryKeyConstraint
+from sqlalchemy import Integer, String, ForeignKey, PrimaryKeyConstraint, BigInteger
 from .connect import engine
 
 class Base(DeclarativeBase):
@@ -19,7 +19,7 @@ class StudyEntity(Base):
 class Chat(Base):
     __tablename__ = "chats"
 
-    id: Mapped[int] = mapped_column(primary_key=True, unique=True)
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, unique=True)
     kind: Mapped[str] = mapped_column(String(64))
     name: Mapped[str] = mapped_column(String(64))
     username: Mapped[Optional[str]] = mapped_column(String(64))

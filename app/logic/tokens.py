@@ -2,7 +2,6 @@ from datetime import datetime, date, timedelta
 from typing import Any
 from app.models import StudyEntityType
 from app.shared import relative_day_tokens, absolute_day_tokens, day_tokens, week_tokens, main_logger
-import re
 from app.database import engine, StudyEntity, Chat
 from sqlalchemy.orm import Session
 
@@ -16,7 +15,6 @@ def is_date(string):
 
 
 def extract_lessons_tokens(tokens: list[str]):
-    print(tokens)
     tokens = tokens[1:]
     date_found = False;
     for i, token in enumerate(tokens):

@@ -75,7 +75,7 @@ async def handle_fio(msg: Message, tokens: List[str]):
 async def handle_hide_kb(msg: Message):
     if msg.chat.type != "private":
         await msg.reply(LEXICON["not_available_in_groups"])
-        pass
+        return
 
     result = LEXICON["kb_hide"]
     kb = ReplyKeyboardRemove()
@@ -85,7 +85,7 @@ async def handle_hide_kb(msg: Message):
 async def handle_show_kb(msg: Message):
     if msg.chat.type != "private":
         await msg.reply(LEXICON["not_available_in_groups"])
-        pass
+        return
 
     result = LEXICON["kb_show"]
     kb = default_kb
