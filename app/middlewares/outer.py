@@ -3,9 +3,11 @@ import re
 
 from aiogram import BaseMiddleware
 from aiogram.types import Message
+from app.exceptions import StudyEntityNotFoundError, StudyEntityNotSelectedError, WrongStudyEntityKindError
 from app.logic import extract_lessons_tokens
 from app.shared import main_logger, command_tokens
 from app.database import engine, Chat
+from app.lexicon import LEXICON
 from sqlalchemy.orm import Session
 
 # Checks if a chat is banned. If it is, breaks the middleware chain 
@@ -90,3 +92,25 @@ class TokenizerMiddleware(BaseMiddleware):
             data['tokens'] = tokens
 
         return await handler(event, data)
+
+class ErrorHandlingMiddleware(BaseMiddleware):
+    async def __call__(
+        self,
+        handler: Callable[[Message, Dict[str, Any]], Awaitable[Any]],
+        event: Message,
+        data: Dict[str, Any]
+    ):
+        try:
+            return await handler(event, data)
+        except WrongStudyEntityKindError as e:
+            main_logger.error(e.__str__())
+            await event.reply(LEXICON['exception'])
+        except StudyEntityNotFoundError as e:
+            main_logger.error(e.__str__())
+            await event.reply(LEXICON['exception'])
+        except StudyEntityNotSelectedError as e:
+            main_logger.error(e.__str__())
+            await event.reply(LEXICON['err_se_not_selected'])
+        except BaseException as e:
+            main_logger.error(e)
+            await event.reply(LEXICON['exception'])

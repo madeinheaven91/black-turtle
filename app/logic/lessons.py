@@ -12,8 +12,7 @@ def res_to_day(dic, query_date: date):
         name = dic["teacher"]["fio"]
         kind = StudyEntityType.TEACHER
     else:
-        main_logger.error("Something went wrong in lessons_for_today...")
-        raise
+        raise Exception("watafuk?")
 
     weekday = query_date.weekday() + 1
     lessons = [];

@@ -1,5 +1,6 @@
 from datetime import datetime, date, timedelta
 from typing import Any
+from app.exceptions import StudyEntityNotFoundError, StudyEntityNotSelectedError, WrongStudyEntityKindError
 from app.models import StudyEntityType
 from app.shared import relative_day_tokens, absolute_day_tokens, day_tokens, week_tokens, main_logger
 from app.database import engine, StudyEntity, Chat
@@ -50,9 +51,7 @@ def process_lessons_tokens(tokens: list[str], chat_id: int) -> list[Any]:
         if not study_entity_name:
             chat = session.query(Chat).filter(Chat.id == chat_id).first()
             if not chat:
-                # FIXME: сделать обработчик ошибок
-                main_logger.error(f"Group not selected in chat {chat_id}")
-                raise
+                raise StudyEntityNotSelectedError(f"Study entity not selected in chat {chat_id}")
             study_entity = session.query(StudyEntity).filter(StudyEntity.id == chat.study_entity_id).first()
         else:
             study_entity = session.query(StudyEntity).filter(StudyEntity.name.ilike(f"%{study_entity_name}%")).first()
@@ -63,8 +62,7 @@ def process_lessons_tokens(tokens: list[str], chat_id: int) -> list[Any]:
                 case "group":
                     kind = StudyEntityType.GROUP
                 case _:
-                    main_logger.error(f"Wrong study entity kind {study_entity.kind}")
-                    raise
+                    raise WrongStudyEntityKindError(f"Wrong study entity kind: {study_entity.kind}. Only 'teacher' or 'group' is allowed")
             api_id = study_entity.api_id
 
             if day_token not in day_tokens:
@@ -106,6 +104,4 @@ def process_lessons_tokens(tokens: list[str], chat_id: int) -> list[Any]:
             processed = ["lessons", kind, api_id, query_date]
             return processed
         else:
-                # FIXME: сделать обработчик ошибок
-            main_logger.error(f"Wrong study entity name ({study_entity_name})")
-            raise
+            raise StudyEntityNotFoundError(f"Study entity not found (name: {study_entity_name})")
