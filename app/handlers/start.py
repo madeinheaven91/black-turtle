@@ -26,7 +26,7 @@ async def cmd_start(msg: Message) -> None:
         existing_chat = res.first()
 
         if not existing_chat:
-            main_logger.info(f"New chat! ID: {msg.chat.id}, type: {msg.chat.type}")
+            main_logger.telegram(f"New chat! ID: {msg.chat.id}, type: {msg.chat.type}")
             match msg.chat.type:
                 case "private":
                     session.add(Chat(id=msg.chat.id, kind="private", name=msg.from_user.full_name, username=msg.from_user.username))
@@ -35,7 +35,7 @@ async def cmd_start(msg: Message) -> None:
                     session.add(Chat(id=msg.chat.id, kind="group", name=msg.chat.title))
                     session.commit()
         else:
-            main_logger.info(f"Chat already exists! ID: {msg.chat.id}, type: {msg.chat.type}")
+            main_logger.telegram(f"Chat already exists! ID: {msg.chat.id}, type: {msg.chat.type}")
 
     try:
         await msg.answer(LEXICON['/start'], reply_markup=greeting_kb)
@@ -150,7 +150,7 @@ async def registration(msg: Message) -> None:
         existing_chat = res.first()
 
         if not existing_chat:
-            main_logger.info(f"New chat! ID: {msg.chat.id}, type: {msg.chat.type}")
+            main_logger.telegram(f"New chat! ID: {msg.chat.id}, type: {msg.chat.type}")
             match msg.chat.type:
                 case "private":
                     session.add(Chat(id=msg.chat.id, kind="private", name=msg.from_user.full_name, username=msg.from_user.username))
@@ -159,7 +159,7 @@ async def registration(msg: Message) -> None:
                     session.execute(Chat(id=msg.chat.id, kind="group", name=msg.chat.title))
                     session.commit()
         else:
-            main_logger.info(f"Chat already exists! ID: {msg.chat.id}, type: {msg.chat.type}")
+            main_logger.telegram(f"Chat already exists! ID: {msg.chat.id}, type: {msg.chat.type}")
 
     await msg.answer(LEXICON["reg_group_or_teacher"], reply_markup=reg_group_or_teacher_kb)
 
