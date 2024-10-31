@@ -25,5 +25,6 @@ def gen_payload(type: StudyEntityType, id: int, query_date: date):
             res["teacherId"] = id
 
     res["date"] = str(query_date)
-    res["publicationId"] = "45fc8ddd-35e2-4d8e-9da1-a081a8edc11d"
+    # res["publicationId"] = "45fc8ddd-35e2-4d8e-9da1-a081a8edc11d"
+    res["publicationId"] = "4a1e0b67-8c36-4082-809d-97fe970928d4"
     return res
