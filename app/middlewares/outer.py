@@ -5,9 +5,8 @@ from aiogram import BaseMiddleware
 from aiogram.types import Message
 from app.exceptions import StudyEntityNotFoundError, StudyEntityNotSelectedError, WrongStudyEntityKindError
 from app.logic import extract_lessons_tokens
-from app.shared import main_logger, command_tokens
+from app.shared import main_logger, command_tokens, LEXICON
 from app.database import engine, Chat
-from app.lexicon import LEXICON
 from sqlalchemy.orm import Session
 
 # Checks if a chat is banned. If it is, breaks the middleware chain 

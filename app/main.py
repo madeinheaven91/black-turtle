@@ -7,8 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from config import load_config
 from middlewares.outer import LoggingMiddleware, TokenizerMiddleware, ValidateMiddleware, ErrorHandlingMiddleware
-from shared import main_logger, bot, dp
-from lexicon import LEXICON
+from shared import main_logger, bot, dp, LEXICON
 from handlers import user_router, start_router, admin_router
 
 async def main():

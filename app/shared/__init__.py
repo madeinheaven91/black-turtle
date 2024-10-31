@@ -2,6 +2,7 @@ from .data import *
 from .logger import main_logger
 from .utils import lessons_declension
 from .bot import bot, dp
+from .lexicon import LEXICON
 
 __all__ = [
     "main_logger",
@@ -16,4 +17,5 @@ __all__ = [
     "lessons_declension",
     "bot",
     "dp",
+    "LEXICON",
 ]

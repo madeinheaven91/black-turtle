@@ -4,8 +4,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert
 
-from shared import main_logger
-from lexicon import LEXICON
+from shared import main_logger, LEXICON
 from keyboards import help_kb, default_kb
 from logic import process_lessons_tokens
 from api import req_week

@@ -7,35 +7,46 @@ from app.database import engine, StudyEntity, Chat
 from sqlalchemy.orm import Session
 
 # FIXME: нормально написать весь этот бред
-def is_date(string):
-    try:
-        datetime.strptime(string, '%d.%m.%Y')
+def is_day_token(string):
+    if string in relative_day_tokens or string in absolute_day_tokens:
         return True
-    except:
+    else:
+        try:
+            datetime.strptime(string, '%d.%m.%Y')
+            return True
+        except:
+            return False
+
+def is_week_token(string):
+    if string in week_tokens:
+        return True
+    else:
         return False
 
 
 def extract_lessons_tokens(tokens: list[str]):
     tokens = tokens[1:]
-    date_found = False;
-    for i, token in enumerate(tokens):
-        if token in day_tokens or is_date(token):
-            name_token = " ".join(tokens[:i])
-            day_token = token
-            week_token = tokens[i+1]
-            date_found = True
-            break
-    if not date_found:
-        name_token = " ".join(tokens).strip()
-        day_token = ""
-        week_token = ""
-    else:
-        name_token = name_token if name_token else ""
-        day_token = day_token if day_token else ""
-        week_token = week_token if week_token and day_token else ""
-    return ["пары", name_token, day_token, week_token]
+    day_token_index, week_token_index = None, None
+    day_token, week_token = "", ""
 
-    
+    for i, token in enumerate(tokens):
+        if not day_token and is_day_token(token):
+                day_token_index, day_token = i, token
+        if not week_token and is_week_token(token):
+                week_token_index, week_token = i, token
+
+    if day_token_index == 0 or week_token_index == 0:
+        return ["пары", "", day_token, week_token]
+
+    if day_token_index:
+        name_token = " ".join(tokens[:day_token_index]).strip()
+    else:
+        if week_token_index:
+            name_token = " ".join(tokens[:week_token_index]).strip()
+        else:
+            name_token = " ".join(tokens).strip()
+
+    return ["пары", name_token, day_token, week_token]
 
 
 # [пары, 921, пн, след]

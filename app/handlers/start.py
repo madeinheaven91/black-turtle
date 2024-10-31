@@ -11,9 +11,8 @@ from aiogram.types import (CallbackQuery, InlineKeyboardButton, Message,)
 from aiogram.utils.keyboard import (InlineKeyboardBuilder,)
 
 from fsm import Registration
-from shared import main_logger
+from shared import main_logger, LEXICON
 from database import Chat
-from lexicon import LEXICON
 from keyboards import greeting_kb, reg_group_or_teacher_kb, reg_cancel_kb, default_kb
 from database import engine, StudyEntity, Chat, find_teachers
 

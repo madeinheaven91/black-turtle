@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from datetime import date
+from typing import DefaultDict
 
 from .models import Lesson, StudyEntityType
-from app.shared import lessons_declension
-from app.lexicon import LEXICON
+from app.shared import lessons_declension, LEXICON
 
 @dataclass
 class Day:
@@ -54,20 +54,27 @@ def combine_simul(day) -> list[Lesson]:
     if not day.lessons:
         return day.lessons
 
-    res = []
-    for i in range(len(day.lessons) - 1):
-        if day.lessons[i].index == day.lessons[i + 1].index:
-            res.append(Lesson(
-                index=day.lessons[i].index,
-                start_time=day.lessons[i].start_time,
-                end_time=day.lessons[i].end_time,
-                subjects=day.lessons[i].subjects + day.lessons[i + 1].subjects,
-                cor_entities=day.lessons[i].cor_entities + day.lessons[i + 1].cor_entities,
-                cabinets=day.lessons[i].cabinets + day.lessons[i + 1].cabinets,
-            ))
-        elif day.lessons[i].index == day.lessons[i - 1].index:
-            continue
+    grouped = DefaultDict(list)
+
+    for lesson in day.lessons:
+        grouped[lesson.index].append(lesson)
+
+    combined = []
+    for index, lessons in grouped.items():
+        if len(lessons) == 1:
+            combined.append(lessons[0])
         else:
-            res.append(day.lessons[i])
-    res.append(day.lessons[len(day.lessons) - 1])
-    return res
+            subjects, cabinets, cor_entities = [], [], []
+            for lesson in lessons:
+                subjects.extend(lesson.subjects)
+                cor_entities.extend(lesson.cor_entities)
+                cabinets.extend(lesson.cabinets)
+            combined.append(Lesson(
+                index=index,
+                start_time=lessons[0].start_time,
+                end_time=lessons[0].end_time,
+                subjects=subjects,
+                cor_entities=cor_entities,
+                cabinets=cabinets
+            ))
+    return combined
