@@ -6,7 +6,6 @@ from app.shared import relative_day_tokens, absolute_day_tokens, day_tokens, wee
 from app.database import engine, StudyEntity, Chat
 from sqlalchemy.orm import Session
 
-# FIXME: нормально написать весь этот бред
 def is_day_token(string):
     if string in relative_day_tokens or string in absolute_day_tokens:
         return True
@@ -22,7 +21,6 @@ def is_week_token(string):
         return True
     else:
         return False
-
 
 def extract_lessons_tokens(tokens: list[str]):
     tokens = tokens[1:]
