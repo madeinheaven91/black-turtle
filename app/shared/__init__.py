@@ -2,11 +2,10 @@ from .data import *
 from .logger import main_logger
 from .utils import lessons_declension
 from .bot import bot, dp
-from .lexicon import LEXICON
+from .lexicon import LEXICON, ADMIN_LEXICON
 
 __all__ = [
     "main_logger",
-    "admin_ids",
     "api_url",
     "req_headers",
     "relative_day_tokens",
@@ -18,4 +17,5 @@ __all__ = [
     "bot",
     "dp",
     "LEXICON",
+    "ADMIN_LEXICON",
 ]
