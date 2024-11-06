@@ -32,7 +32,8 @@ class Chat(Base):
 class Admin(Base):
     __tablename__ = "Admin"
 
-    id: Mapped[int] = mapped_column(BigInteger, ForeignKey("Chat.id"), primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    chat_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("Chat.id"))
     level: Mapped[int] = mapped_column(Integer)
 
     chat: Mapped["Chat"] = relationship("Chat", back_populates="admin")

@@ -15,5 +15,5 @@ def find_groups(queue: str):
 
 def find_admin(queue: str):
     with Session(engine) as session:
-        admin = session.query(Admin).filter(Admin.id == queue).first()
+        admin = session.query(Admin).filter(Admin.chat_id == queue).first()
         return admin
